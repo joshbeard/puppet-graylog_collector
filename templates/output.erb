@@ -1,0 +1,22 @@
+
+  <%= @output_name %> {
+    type = "<%= @type %>"
+  <%- if @type == 'gelf' -%>
+    host = "<%= @host %>"
+    port = "<%= @port %>"
+    client-tls = "<%= @client_tls %>"
+    <%- if @client_tls_cert_chain_file -%>
+    client-tls-cert-chain-file = "<% @client_tls_cert_chain_file %>"
+    <%- end -%>
+    client-tls-verify-cert = "<%= @client_tls_verify_cert %>"
+    client-queue-size = "<%= @client_queue_size %>"
+    client-connect-timeout = "<%= @client_connect_timeout %>"
+    client-reconnect-delay = "<%= @client_reconnect_delay %>"
+    client-tcp-no-delay    = "<%= @client_tcp_no_delay %>"
+    client-send-buffer-size = "<%= @client_send_buffer_size %>"
+  <%- end -%>
+  <%- if @inputs -%>
+    outputs = "<%= @inputs.join(',') %>"
+  <%- end -%>
+  }
+

@@ -1,0 +1,28 @@
+
+  <%= @input_name %> {
+    type = "<%= @type %>"
+  <%- if @path -%>
+    path = "<%= @path %>"
+  <%- end -%>
+    reader-interval = "<%= @reader_interval %>"
+    charset = "<%= @charset %>"
+    content-splitter = "<%= @content_splitter %>"
+  <%- if @content_splitter_pattern -%>
+    content-splitter-pattern = "<%= @content_splitter_pattern %>"
+  <%- end -%>
+  <%- if @path_glob_root -%>
+    path-glob-root = "<%= @path_glob_root -%>"
+  <%- end -%>
+  <%- if @path_glob_pattern -%>
+    path-glob-pattern = "<%= @path_glob_pattern %>"
+  <%- end -%>
+  <%- if @outputs -%>
+    outputs = "<% @outputs.join(',') %>"
+  <%- end -%>
+    message-fields = {
+    <%- @message_fields.each do |k,v| -%>
+      "<%= k %>" = "<%= v %>"
+    <%- end -%>
+    }
+  }
+

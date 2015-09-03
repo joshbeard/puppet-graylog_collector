@@ -1,0 +1,32 @@
+{
+  "name": "joshbeard-graylog_collector",
+  "version": "0.1.0",
+  "author": "joshbeard",
+  "summary": "Manages the Graylog2 Connector",
+  "license": "Apache-2.0",
+  "source": "https://github.com/joshbeard/puppet-graylog_collector",
+  "project_page": "https://github.com/joshbeard/puppet-graylog_collector",
+  "issues_url": "https://github.com/joshbeard/puppet-graylog_collector",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+      ]
+    }
+  ]
+}

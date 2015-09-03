@@ -1,0 +1,19 @@
+// ===========================================================================
+// Graylog Collector configuration
+// This file is managed by Puppet
+// Do not modify directly!
+// ===========================================================================
+
+// URL to REST API of Graylog server this collector registers at
+server-url = "<%= @server_url %>"
+
+// Enable registration with the Graylog server. (enabled by default)
+enable-registration = <%= @enable_registration %>
+
+// The id used to identify this collector. Can be either a string which is used as id,
+// or the location of a file if prefixed with "file:". If the file does not exist,
+// an id will be generated and written to that file. If it exists, it is expected
+// to contain a single string without spaces which will be used for the id.
+// Defaults to "file:config/collector-id" if not specified.
+collector-id = "<%= @collector_id %>"
+

@@ -1,0 +1,15 @@
+# Graylog Collector Runtime Options
+# This file is managed by Puppet
+
+# The path to the Java executable.
+COLLECTOR_JAVA_CMD="<%= @java_cmd %>"
+
+# The JVM options for executing the collector. Please check
+# /usr/share/graylog-collector/graylog-collector-script-config.sh for the
+# default options!
+<%- if @java_opts -%>
+COLLECTOR_JAVA_OPTS="<%= @java_opts %>"
+<%- else -%>
+#COLLECTOR_JAVA_OPTS=""
+<%- end -%>
+
