@@ -8,7 +8,7 @@ define graylog_collector::input (
   $type                     = 'file',
   $path_glob_root           = undef,
   $path_glob_pattern        = undef,
-  $content_splitter         = "NEWLINE",
+  $content_splitter         = 'NEWLINE',
   $content_splitter_pattern = undef,
   $charset                  = 'UTF-8',
   $reader_interval          = '100ms',
