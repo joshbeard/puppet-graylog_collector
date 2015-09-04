@@ -14,6 +14,7 @@ define graylog_collector::input (
   $reader_interval          = '100ms',
   $priority                 = '101',
   $config_dir               = $graylog_collector::config::config_dir,
+  $global_message_fields    = {},
   $message_fields           = {},
   $outputs                  = undef,
 ) {
@@ -42,7 +43,10 @@ define graylog_collector::input (
     validate_array($outputs)
   }
 
+  validate_hash($global_message_fields)
   validate_hash($message_fields)
+
+  $_message_fields = merge($global_message_fields, $message_fields)
 
 
   # We parameterize this, even though it must be 'file'.
