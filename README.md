@@ -9,16 +9,25 @@
     * [Setup requirements](#setup-requirements)
     * [Beginning with graylog_collector](#beginning-with-graylog_collector)
 4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
-7. [Authors](#authors)
+5. [Reference](#reference)
+    * [Class: graylog_collector](#class-graylog_collector)
+    * [Defined Type: graylog_collector::input](#class-graylog_collector__input)
+    * [Defined Type: graylog_collector::output](#class-graylog_collector__output)
+6. [Examples](#examples)
+7. [Limitations - OS compatibility, etc.](#limitations)
+8. [Development - Guide for contributing to the module](#development)
+9. [Authors](#authors)
 
 ## Overview
 
 This module is still in initial development, as well as the README!
 
 Puppet module to manage [Graylog Collector](http://docs.graylog.org/en/1.2/pages/collector.html)
+
+You should refer to the [Graylog Collector Documentation](http://docs.graylog.org/en/latest/pages/collector.html)
+at [http://docs.graylog.org/en/latest/pages/collector.html](http://docs.graylog.org/en/latest/pages/collector.html)
+to aide you in the use of this module.  Most parameters map to the configuration
+options.
 
 ## Module Description
 
@@ -76,15 +85,393 @@ Manages the Graylog Collector service
 
 ### Class: `graylog_collector`
 
-TODO
+Refer to [http://docs.graylog.org/en/latest/pages/collector.html#global-settings](http://docs.graylog.org/en/latest/pages/collector.html#global-settings)
+
+#### Parameters
+
+__server_url__
+
+Required. Specifies the URL (including port) for the Graylog2 server.
+
+__enable_registration__
+
+Boolean. Default: true
+
+__collector_id__
+
+Default: 'file:config/collector-id'
+
+__install_path__
+
+Default: '/usr/share'
+
+Specifies the path to install Graylog Collector to.
+
+Note: This will append the version to the directory, as it's extracted from
+the tarball.  A symlink will be created called "graylog-collector" that links
+to it.
+
+__config_dir__
+
+Default: '/etc/graylog-collector'
+
+The directory for the Graylog Collector configuration file.
+
+__sysconfig_dir__
+
+Default: '/etc/default'
+
+The sysconfig path.  This is typically `/etc/default` or `/etc/sysconfig`
+
+__java_cmd__
+
+Default: '/usr/bin/java'
+
+The absolute path to the `java` executable to use for running the Graylog
+Collector.
+
+__java_opts__
+
+Default: undef
+
+Any additional Java options to pass when running Graylog Collector.
+
+__user__
+
+Default: 'root'
+
+The user to run Graylog Collector as.  Keep in mind that the collector needs
+access to whatever files you feed to it.
+
+__group__
+
+Default: '0'
+
+The group for the collector.  This is used for ownership of the config files.
+
+__manage_user__
+
+Default: false
+
+Specifies whether this module should manage the user.  If you're running as
+root, you probably shouldn't let this module manage the user.
+
+__manage_group__
+
+Default: false
+
+Specifies whether this module should manage the group.  If you're running as
+root, you probably shouldn't let this module manage the group.
+
+__manage_service__
+
+Default: true
+
+Specifies whether this module should manage the service.
+
+__service_ensure__
+
+Default: 'running'
+
+State of the service.
+
+__service_enable__
+
+Default: true
+
+Enable the service on boot or not.
+
+__service_name__
+
+Default: 'graylog-collector'
+
+The name of the service to manage if `manage_service` is true.
+
+__install_from__
+
+Default: 'archive'
+
+Right now, 'archive' is your only choice here.  Packages do exist for Graylog
+Collector, but this module doesn't currently support them (soon! feel free
+to add this).  The main reason for this is that they don't have packages for
+EL6 right now, which is what this module was developed on/for.
+
+__version__
+
+Default: '0.4.0'
+
+The version of Graylog Collector to install.
+
+This is used so that we can keep track of the version to support upgrades and
+reasonable symlinking.
+
+__source_url__
+
+Default: 'https://packages.graylog2.org/releases/graylog-collector/graylog-collector-0.4.0.tgz'
+
+URL to download the tarball from for installation when `install_from` is
+set to 'archive'
 
 ### Defined Type: `graylog_collector::input`
 
-TODO
+Refer to [http://docs.graylog.org/en/latest/pages/collector.html#input-settings](http://docs.graylog.org/en/latest/pages/collector.html#input-settings)
+and [http://docs.graylog.org/en/latest/pages/collector.html#input-output-routing](http://docs.graylog.org/en/latest/pages/collector.html#input-output-routing)
+
+__input_name__
+
+Default: $title
+
+The name of the input to manage
+
+__path__
+
+Default: undef
+
+If collecting an absolute path, this should refer to it.
+
+__type__
+
+Default: 'file'
+
+__path_glob_root__
+
+Default: undef
+
+If you're collecting a file glob (e.g. *.log), this should refer to the base
+directory that contains that glob.
+
+Example: '/usr/share/tomcat/logs'
+
+__path_glob_pattern__
+
+Default: undef
+
+The glob pattern used for collection.
+
+Example: '*.log' or '*.{err,log}'
+
+__content_splitter__
+
+Default: 'NEWLINE'
+
+How to split the content.  Basically - how to separate messages.  Valid options
+are 'NEWLINE' or 'PATTERN'
+
+__content_splitter_pattern__
+
+Default: undef
+
+If splitting on 'PATTERN', what regex should be used to separate log messages.
+
+Note that regex escapes must be escaped.  So a normal regex pattern of `\d`
+should be `\\d`
+
+__charset__
+
+Default: 'UTF-8'
+
+__reader_interval__
+
+Default: '100ms'
+
+__global_message_fields__
+
+Hash.
+
+Default: {}
+
+Message fields allow for you to add your own fields to a log message. For
+example, appending the application name or some other metadata.  The
+'global' message fields parameter is intended for situations where you'd like
+to apply a global set of fields to all inputs, but allow for
+application-specific fields to be added.  Since these are hashes, you would
+normally need a wrapper or some other trickery to combine a global set of
+fields with application-specific fields, or declare your global fields with
+every declaration of an input.  This is useful, for example, when you'd like
+to set message fields with something like Hiera or in a base profile.
+
+The global message fields will be merged with the 'message_fields' parameter.
+
+Example:
+
+```puppet
+global_message_fields {
+  'fqdn'            => $::fqdn,
+  'org_environment' => $::org_environment,
+}
+```
+
+__message_fields__
+
+Hash.
+
+Default: {}
+
+Refer to 'global_message_fields' above.  These are fields _in addition to_
+the 'global_message_fields'.  These take precedence, however.
+
+```puppet
+global_message_fields {
+  'application_name' => 'tomcat',
+  'app'              => 'pluto',
+  'logfile'          => 'catalina.out',
+}
+```
+
+__outputs__
+
+Default: undef
+
+Array.
+
+The outputs to send this input to.  See `graylog::collector::output`  You can
+specify an output on the input or an input on the output (whoa).
 
 ### Defined Type: `graylog_collector::output`
 
-TODO
+Refer to [http://docs.graylog.org/en/latest/pages/collector.html#output-settings](http://docs.graylog.org/en/latest/pages/collector.html#output-settings)
+and [http://docs.graylog.org/en/latest/pages/collector.html#input-output-routing](http://docs.graylog.org/en/latest/pages/collector.html#input-output-routing)
+
+__output_name__
+
+Default: title
+
+The name of the output to configure. Example: 'gelf'
+
+__type__
+
+Default: gelf
+
+The type of output. Valid options are 'gelf' and 'stdout'
+
+__host__
+
+Default: undef
+
+If type is 'gelf', this refers to the host to send logs to. The Graylog2
+server should have a GELF TCP input configured and listening.
+
+__port__
+
+Default: undef
+
+If type is 'gelf', this refers to the port to send logs to. The Graylog2
+server should have a GELF TCP input configured and listening.
+
+__client_tls__
+
+Boolean.
+
+Default: false
+
+Specifies whether to use TLS to connect when the output is 'gelf'
+
+__client_tls_cert_chain_file__
+
+Default: undef
+
+__client_tls_verify_cert__
+
+Boolean.
+
+Default: true
+
+__client_queue_size__
+
+Default: '512'
+
+__client_connect_timeout__
+
+Default: '5000'
+
+__client_reconnect_delay__
+
+Default: '1000'
+
+__client_tcp_no_delay__
+
+Boolean.
+
+Default: true
+
+__client_send_buffer_size__
+
+Default: '-1'
+
+__inputs__
+
+Array.
+
+Default: undef
+
+Works like 'outputs' with `graylog_collector::input`.  What _inputs_ should
+be sent to this output.  You can leave this empty and specify them with the
+_input_ if you'd like.
+
+## Examples
+
+Example of declaring the common configuration in a base profile:
+
+```puppet
+class profile::base::graylog {
+  class { '::graylog_collector':
+    server_url => '8.8.8.8:12900',
+  }
+
+  graylog_collector::output { 'gelf':
+    type => 'gelf',
+    host => '8.8.8.8',
+    port => '12900',
+  }
+}
+```
+
+Example of managing an 'input' for a specific application:
+
+```puppet
+class profile::apps::pluto {
+  graylog_collector::input { 'pluto_catalina_out':
+    path                     => "${catalina_base}/logs/catalina.out",
+    content_splitter         => 'PATTERN',
+    content_splitter_pattern => '^(\\d{4}-\\d{2}-\\d{2}|\\d{2}-\\w{3}-\\d{4})\\s\\d{1,2}:\\d{1,2}:\\d{1,2}',
+    message_fields           => {
+      'application_name' => 'tomcat',
+      'app'              => 'pluto',
+      'logfile'          => 'catalina.out',
+    }
+  }
+}
+```
+
+Example of a file glob:
+
+```puppet
+class profile::apps::pluto {
+  graylog_collector::input { 'pluto_tomcat_logs':
+    path_glob_root           => "${catalina_base}/logs",
+    path_glob_pattern        => "*.{out,log,txt}",
+    content_splitter         => 'PATTERN',
+    content_splitter_pattern => '^(\\d{4}-\\d{2}-\\d{2}|\\d{2}-\\w{3}-\\d{4})\\s\\d{1,2}:\\d{1,2}:\\d{1,2}',
+    message_fields           => {
+      'application_name' => 'tomcat',
+      'app'              => 'pluto',
+    }
+  }
+}
+```
+
+An example of using a _collector_ to add 'global_message_fields' to all inputs:
+
+```puppet
+Graylog_collector::Input <| |> {
+  outputs               => [ 'gelf' ],
+  global_message_fields => {
+    'fqdn'            => $::fqdn,
+    'org_environment' => $::org_environment,
+  }
+}
+```
+
 
 ## Limitations
 
@@ -104,7 +491,11 @@ This has only been tested on EL6.
 
 * Add additional operating system support (EL7, Windows, Systemd service)
 
-Contributions are more than welcome!
+* Add testing
+
+### Contributing
+
+Contributions are more than welcome!  Reporting issues or code contributions.
 
 1. Fork this repo
 2. Do your work
