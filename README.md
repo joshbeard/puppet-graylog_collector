@@ -23,8 +23,6 @@
 
 ## Overview
 
-This module is still in initial development, as well as the README!
-
 Puppet module to manage [Graylog Collector](http://docs.graylog.org/en/1.2/pages/collector.html)
 
 You should refer to the [Graylog Collector Documentation](http://docs.graylog.org/en/latest/pages/collector.html)
