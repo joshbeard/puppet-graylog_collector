@@ -3,29 +3,30 @@
 class graylog_collector (
   $server_url,
   $enable_registration = true,
-  $collector_id        = 'file:config/collector-id',
+  $collector_id        = 'file:/etc/graylog/collector/collector-id',
   $install_path        = '/usr/share',
-  $config_dir          = '/etc/graylog-collector',
-  $sysconfig_dir       = '/etc/default',
+  $config_dir          = '/etc/graylog/collector',
+  $sysconfig_dir       = $graylog_collector::params::sysconfig_dir,
   $java_cmd            = '/usr/bin/java',
   $java_opts           = undef,
   $user                = 'root',
-  $group               = '0',
+  $group               = 'root',
   $manage_user         = false,
   $manage_group        = false,
+  $manage_init         = undef,
   $manage_service      = true,
   $service_ensure      = 'running',
   $service_enable      = true,
   $service_name        = 'graylog-collector',
-  $install_from        = 'archive',
-  $version             = '0.4.0',
-  $source_url          = 'https://packages.graylog2.org/releases/graylog-collector/graylog-collector-0.4.0.tgz',
-) {
+  $service_file        = $graylog_collector::params::service_file,
+  $service_template    = $graylog_collector::params::service_template,
+  $manage_repo         = true,
+  $install_from        = $graylog_collector::params::install_from,
+  $version             = $graylog_collector::params::version,
+  $source_url          = 'https://packages.graylog2.org/releases/graylog-collector/graylog-collector-0.4.1.tgz',
+) inherits graylog_collector::params {
 
-  # Graylog builds packages, but not for some platforms.
-  unless $install_from == 'archive' {
-    fail('archive is the only install method currently supported.')
-  }
+  validate_re($install_from, '(archive|package)')
 
   validate_re($server_url, '^https?:\/\/.*:\d+')
 
@@ -43,7 +44,6 @@ class graylog_collector (
 
   validate_string($group)
   validate_string($user)
-  validate_re($version, '^\d+\.\d+\.\d+')
   validate_re($source_url, '^(https?|ftp)')
 
   if $manage_group {
@@ -60,21 +60,10 @@ class graylog_collector (
     }
   }
 
-  include '::graylog_collector::install::archive'
-  include '::graylog_collector::config'
-
-  anchor { 'graylog_collector::start': }
+  anchor { 'graylog_collector::start': }->
+  class { 'graylog_collector::install': }->
+  class { 'graylog_collector::config': }~>
+  class { 'graylog_collector::service': }->
   anchor { 'graylog_collector::end': }
-
-  if $manage_service {
-    include '::graylog_collector::service'
-    Class['::graylog_collector::config'] ~>
-    Class['::graylog_collector::service']
-  }
-
-  Anchor['graylog_collector::start'] ->
-  Class['::graylog_collector::install::archive'] ->
-  Class['::graylog_collector::config'] ->
-  Anchor['graylog_collector::end']
 
 }

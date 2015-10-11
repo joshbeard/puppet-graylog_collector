@@ -11,6 +11,14 @@
     {
       "name": "puppetlabs-stdlib",
       "version_requirement": ">= 1.0.0"
+    },
+    {
+      "name": "nanliu-staging",
+      "version_requirement": ">= 1.0.3"
+    },
+    {
+      "name": "puppetlabs-apt",
+      "version_requirement": ">= 2.2.0"
     }
   ],
   "operatingsystem_support": [
@@ -25,7 +33,35 @@
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
         "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "12.04",
+        "14.04"
       ]
     }
   ]

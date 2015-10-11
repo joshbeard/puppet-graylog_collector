@@ -38,10 +38,10 @@ configuring inputs and outputs.
 
 ### What graylog_collector affects
 
-* Installs the Graylog Collector from archive bundle (package installation
-  coming soon).
+* Installs the Graylog Collector via archive or package
+* Optionally manages package managment repos
 * Optionally manages the user/group to run as
-* Provides an init script and optionally manages the service
+* Optionally provides an init script and optionally manages the service
 * Manages the Graylog Collector configuration file
 
 ### Setup Requirements
@@ -49,6 +49,9 @@ configuring inputs and outputs.
 Requires an installation of Java, which is not managed by this module.
 
 Try [puppetlabs-java](https://forge.puppetlabs.com/puppetlabs/java)
+
+If using Ubuntu or Debian and managing the graylog-collector repo with this
+module, you'll need [puppetlabs-apt](https://forge.puppetlabs.com/puppetlabs/apt)
 
 ### Beginning with graylog_collector
 
@@ -99,7 +102,7 @@ Boolean. Default: true
 
 __collector_id__
 
-Default: 'file:config/collector-id'
+Default: 'file:/etc/graylog/collector/config/collector-id'
 
 __install_path__
 
@@ -107,19 +110,19 @@ Default: '/usr/share'
 
 Specifies the path to install Graylog Collector to.
 
-Note: This will append the version to the directory, as it's extracted from
-the tarball.  A symlink will be created called "graylog-collector" that links
-to it.
+Note: If installing via _archive_, this will append the version to the
+directory, as it's extracted from the tarball.  A symlink will be created
+called "graylog-collector" that links to it.
 
 __config_dir__
 
-Default: '/etc/graylog-collector'
+Default: '/etc/graylog/collector'
 
 The directory for the Graylog Collector configuration file.
 
 __sysconfig_dir__
 
-Default: '/etc/default'
+Default: '/etc/default' or '/etc/sysconfig', depending on OS.
 
 The sysconfig path.  This is typically `/etc/default` or `/etc/sysconfig`
 
@@ -145,7 +148,7 @@ access to whatever files you feed to it.
 
 __group__
 
-Default: '0'
+Default: 'root'
 
 The group for the collector.  This is used for ownership of the config files.
 
@@ -162,6 +165,17 @@ Default: false
 
 Specifies whether this module should manage the group.  If you're running as
 root, you probably shouldn't let this module manage the group.
+
+__manage_init__
+
+Default: undef
+
+Specifies whether this module should manage the init script or init config
+file.
+
+If `install_from` is set to _package_, this `manage_init` defaults to __false__
+
+If installing from archive, it defaults to __true__
 
 __manage_service__
 
@@ -189,28 +203,51 @@ The name of the service to manage if `manage_service` is true.
 
 __install_from__
 
-Default: 'archive'
+Default: _depends on platform_
 
-Right now, 'archive' is your only choice here.  Packages do exist for Graylog
-Collector, but this module doesn't currently support them (soon! feel free
-to add this).  The main reason for this is that they don't have packages for
-EL6 right now, which is what this module was developed on/for.
+Possible values are _package_ and _archive_
+
+Defaults to _package_ for:
+
+* Ubuntu 12x
+* Ubuntu 14x
+* Debian 8
+* EL 7
+
+Defaults to _archive_ for everything else.
+
+Refer to the [Graylog Collector documentation](http://docs.graylog.org/en/1.2/pages/collector.html)
+for information about package repositories.
 
 __version__
 
-Default: '0.4.0'
+Default: _depends on installation method_
+
+For archive, it defaults to `0.4.1`.  For package, it defaults to _installed_
 
 The version of Graylog Collector to install.
-
-This is used so that we can keep track of the version to support upgrades and
-reasonable symlinking.
 
 __source_url__
 
 Default: 'https://packages.graylog2.org/releases/graylog-collector/graylog-collector-0.4.0.tgz'
 
+This is not relevant if `install_from` is set to _package_
+
 URL to download the tarball from for installation when `install_from` is
 set to 'archive'
+
+__service_file__
+
+Absolute path to the location of the init script or service definition.
+
+__service_template__
+
+Optional custom template to use for the service file/init script.
+
+__manage_repo__
+
+Whether this module should manage the package repositories.  This is only
+relevant if installing via package.
 
 ### Defined Type: `graylog_collector::input`
 
@@ -475,23 +512,25 @@ Graylog_collector::Input <| |> {
 
 ## Limitations
 
-This has only been tested on EL6.
+Tested on:
+
+* CentOS 6
+* CentOS 7
+* Ubuntu 14.04
 
 ## Development
 
 ### TODO
 
-* Manage package installation.  Graylog provides packages for some platforms,
-  but not EL6 yet.  See https://github.com/Graylog2/fpm-recipes/issues/42
+* Extend package installation.  Waiting on upstream for EL6.
+  https://github.com/Graylog2/fpm-recipes/issues/42
   Also track https://github.com/Graylog2/fpm-recipes
 
-* Ensure service is robust in situations where it cannot reach the server.
-
-* Improve parameter validation
-
-* Add additional operating system support (EL7, Windows, Systemd service)
+* Add additional operating system support
 
 * Add testing
+
+* Cleanups, especially around installation and service management
 
 ### Contributing
 
