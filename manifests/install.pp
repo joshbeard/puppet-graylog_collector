@@ -19,6 +19,10 @@ class graylog_collector::install {
       }
     }
 
+    default: {
+      fail("Unknown installation method: ${graylog_collector::install_from}")
+    }
+
   }
 
 }

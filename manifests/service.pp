@@ -30,6 +30,9 @@ class graylog_collector::service (
         $manage_init = $::graylog_collector::manage_init
       }
     }
+    default: {
+      fail("Unknown installation method: ${::graylog_collector::install_from}")
+    }
   }
 
   if $manage_init {
@@ -46,9 +49,9 @@ class graylog_collector::service (
 
   if $::graylog_collector::manage_service {
     service { 'graylog-collector':
-      ensure    => $service_ensure,
-      enable    => $service_enable,
-      name      => $service_name,
+      ensure => $service_ensure,
+      enable => $service_enable,
+      name   => $service_name,
     }
   }
 
