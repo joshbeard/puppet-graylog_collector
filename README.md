@@ -1,5 +1,8 @@
 # puppet-graylog_collector
 
+[![Puppet Forge](http://img.shields.io/puppetforge/v/joshbeard/graylog_collector.svg)](https://forge.puppetlabs.com/joshbeard/graylog_collector)
+[![Build Status](https://travis-ci.org/joshbeard/puppet-graylog_collector.svg?branch=master)](https://travis-ci.org/joshbeard/puppet-graylog_collector)
+
 #### Table of Contents
 
 1. [Overview](#overview)
