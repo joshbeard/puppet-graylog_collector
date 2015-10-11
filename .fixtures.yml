@@ -1,5 +1,8 @@
 fixtures:
   repositories:
     stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    concat: "https://github.com/puppetlabs/puppetlabs-concat.git"
+    apt: "https://github.com/puppetlabs/puppetlabs-apt.git"
+    staging: "https://github.com/puppet-community/puppet-staging.git"
   symlinks:
     graylog_collector: "#{source_dir}"

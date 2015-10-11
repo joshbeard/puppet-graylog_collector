@@ -10,6 +10,12 @@ ignore_paths = [
   'tests/**/*.pp',
 ]
 
+Rake::Task[:spec].clear
+task :spec do
+  Rake::Task[:spec_prep].invoke
+  Rake::Task[:spec_standalone].invoke
+end
+
 
 Rake::Task[:lint].clear
 PuppetLint::RakeTask.new :lint do |config|

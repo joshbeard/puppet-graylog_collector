@@ -1,7 +1,7 @@
 class graylog_collector::params {
 
   case $::osfamily {
-    'RedHat': {
+    'Redhat': {
       $sysconfig_dir = '/etc/sysconfig'
       if $::operatingsystemmajrelease == '7' {
         $service_file     = '/usr/lib/systemd/system/graylog-collector.service'
@@ -34,13 +34,16 @@ class graylog_collector::params {
         $service_file     = '/etc/init.d/graylog-collector'
         $service_template = 'graylog_collector/graylog-collector.init.erb'
 
-        if $::operatingsystemmajrelease == '8' {
+        if $::operatingsystemmajrelease =~ /^8/ {
           $install_from = 'package'
         }
         else {
           $install_from = 'archive'
         }
       }
+    }
+    'Windows': {
+      fail("${module_name} does not support Windows")
     }
     default: {
       $sysconfig_dir    = '/etc/default'
