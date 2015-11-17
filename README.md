@@ -95,7 +95,7 @@ Refer to [http://docs.graylog.org/en/latest/pages/collector.html#global-settings
 
 __server_url__
 
-Required. Specifies the URL (including port) for the Graylog2 server.
+Required if enable_registration is true. Specifies the URL (including port) for the Graylog2 server.
 
 __enable_registration__
 
