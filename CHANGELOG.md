@@ -1,3 +1,9 @@
+## 2015-11-17 - Release 0.1.3
+
+### Summary
+
+- Only require `server_url` if `enable_registration` is true (@hggh PR #4)
+
 ## 2015-10-19 - Release 0.1.2
 
 ### Summary
