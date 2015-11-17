@@ -5,7 +5,9 @@
 // ===========================================================================
 
 // URL to REST API of Graylog server this collector registers at
+<% if @server_url -%>
 server-url = "<%= @server_url %>"
+<% end -%>
 
 // Enable registration with the Graylog server. (enabled by default)
 enable-registration = <%= @enable_registration %>

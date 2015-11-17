@@ -1,7 +1,7 @@
 # == Class: graylog_collector
 #
 class graylog_collector (
-  $server_url,
+  $server_url          = undef,
   $enable_registration = true,
   $collector_id        = 'file:/etc/graylog/collector/collector-id',
   $install_path        = '/usr/share',
@@ -28,7 +28,9 @@ class graylog_collector (
 
   validate_re($install_from, '(archive|package)')
 
-  validate_re($server_url, '^https?:\/\/.*:\d+')
+  if ($enable_registration == true) {
+    validate_re($server_url, '^https?:\/\/.*:\d+')
+  }
 
   validate_bool($enable_registration)
   validate_bool($manage_user)
