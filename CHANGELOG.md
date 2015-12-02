@@ -1,3 +1,9 @@
+## 2015-12-01 - Release 0.1.4
+
+### Summary
+
+- Update module metadata to specify concat dependency (@leonkyneur PR #5)
+
 ## 2015-11-17 - Release 0.1.3
 
 ### Summary
