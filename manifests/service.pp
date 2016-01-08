@@ -7,6 +7,10 @@ class graylog_collector::service (
     $service_file     = $::graylog_collector::service_file,
     $service_template = $::graylog_collector::service_template,
     $user             = $::graylog_collector::user,
+    $install_path     = $::graylog_collector::install_path,
+    $config_dir       = $::graylog_collector::config_dir,
+    $sysconfig_dir    = $::graylog_collector::sysconfig_dir,
+    $java_cmd         = $::graylog_collector::java_cmd,
 ) {
 
   #
