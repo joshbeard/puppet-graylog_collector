@@ -1,3 +1,11 @@
+## 2016-01-15 - Release 0.1.5
+
+### Summary
+
+- Template syntax fixes: add missing = (@cinacio PR #6)
+- Add missing parameters to service manifest (@cinacio PR #6)
+- Fix output template to list inputs, not outputs (@cinacio PR #6)
+
 ## 2015-12-01 - Release 0.1.4
 
 ### Summary

@@ -541,6 +541,9 @@ Contributions are more than welcome!  Reporting issues or code contributions.
 2. Do your work
 3. Create a pull request
 
-## Authors
+## Authors and Contributors
 
-Josh Beard (<josh@signalboxes.net>)
+* Josh Beard (<josh@signalboxes.net>)
+* @cinacio
+* @leonkyneur
+* @hggh
