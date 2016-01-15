@@ -17,7 +17,7 @@
     path-glob-pattern = "<%= @path_glob_pattern %>"
   <%- end -%>
   <%- if @outputs -%>
-    outputs = "<% @outputs.join(',') %>"
+    outputs = "<%= @outputs.join(',') %>"
   <%- end -%>
     message-fields = {
     <%- @_message_fields.each do |k,v| -%>
