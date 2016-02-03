@@ -1,3 +1,9 @@
+## 2016-02-03 - Release 0.1.6
+
+### Summary
+
+- Add group param to service class (@hggh PR #7)
+
 ## 2016-01-15 - Release 0.1.5
 
 ### Summary
