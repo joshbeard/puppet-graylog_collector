@@ -13,7 +13,7 @@ define graylog_collector::input (
   $charset                  = 'UTF-8',
   $reader_interval          = '100ms',
   $priority                 = '101',
-  $config_dir               = $graylog_collector::config::config_dir,
+  $config_dir               = $graylog_collector::config_dir,
   $global_message_fields    = {},
   $message_fields           = {},
   $outputs                  = undef,
