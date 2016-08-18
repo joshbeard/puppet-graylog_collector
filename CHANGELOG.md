@@ -1,3 +1,10 @@
+## 2016-08-18 - Release 0.1.7
+
+### Summary
+
+- Fix incorrect 'config_dir' namespace (@hggh PR #8)
+- Tests: Allow 140 characters with Puppet Lint (@hggh PR #9)
+
 ## 2016-02-03 - Release 0.1.6
 
 ### Summary
