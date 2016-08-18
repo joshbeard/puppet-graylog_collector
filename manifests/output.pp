@@ -17,7 +17,7 @@ define graylog_collector::output (
   $client_send_buffer_size    = '-1',
   $inputs                     = undef,
   $priority                   = '401',
-  $config_dir                 = $graylog_collector::config::config_dir,
+  $config_dir                 = $graylog_collector::config_dir,
 ) {
 
   validate_re($type, '(stdout|gelf)')
