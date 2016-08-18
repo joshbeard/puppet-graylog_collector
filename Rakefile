@@ -24,7 +24,7 @@ PuppetLint::RakeTask.new :lint do |config|
 
   # List of checks to disable
   config.disable_checks = [
-    '80chars',
+    '140chars',
     'class_inherits_from_params_class',
     'documentation',
   ]
